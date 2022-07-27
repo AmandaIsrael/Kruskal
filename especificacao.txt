@@ -2,16 +2,25 @@ Proposta 10 – Amanda Graeff, Igor França e Mateus Karvat
 
 
 Tarefa:
-Implementar o algoritmo Kruskal para encontrar a árvore geradora mínima (AGM) a partir do grafo de entrada usando como estratégia de gerenciamento dos conjuntos uma abordagem quadrática.Implementar o algoritmo Kruskal para encontrar a árvore geradora mínima a partir do grafo de entrada usando como estratégia de gerenciamento dos conjuntos a abordagem Union-find (hierárquica) cuja complexidade assintótica é O(E log V).
+Implementar o algoritmo Kruskal para encontrar a árvore geradora mínima (AGM) a partir do 
+grafo de entrada usando como estratégia de gerenciamento dos conjuntos uma abordagem quadrática.
+Implementar o algoritmo Kruskal para encontrar a árvore geradora mínima a partir do grafo de entrada 
+usando como estratégia de gerenciamento dos conjuntos a abordagem Union-find (hierárquica) cuja complexidade 
+assintótica é O(E log V).
 
 Como:
 A linguagem utilizada no desenvolvimento é de vossa escolha.
 
-A forma com que os métodos serão implementados é determinada pelo grupo. No entanto, deve-se adotar a mesma abordagem para ambos os métodos. Por exemplo, ambos devem trabalhar sobre a mesma representação (lista ou matriz de adjacência).
+A forma com que os métodos serão implementados é determinada pelo grupo. No entanto, 
+deve-se adotar a mesma abordagem para ambos os métodos. Por exemplo, ambos devem trabalhar 
+sobre a mesma representação (lista ou matriz de adjacência).
 
-Os dados a serem empregados na construção dos grafos estão disponíveis no endereço a seguir:  https://drive.google.com/file/d/1e9F7pIPWXMXQDrWcsFBX0YYLDz2m0rwK/view?usp=sharing  
+Os dados a serem empregados na construção dos grafos estão
+ disponíveis no endereço a seguir:  https://drive.google.com/file/d/1e9F7pIPWXMXQDrWcsFBX0YYLDz2m0rwK/view?usp=sharing  
 
 Critérios que devem ser analisados:
-Tempo cronológico para a execução do algoritmo de Kruskal quadrático;Tempo cronológico para a execução do algoritmo de Kruskal baseado em union-find;Número de testes para descobrir se a aresta escolhida pode ser adicionada à AGM ou se ela fecha um ciclo.
+Tempo cronológico para a execução do algoritmo de Kruskal 
+quadrático;Tempo cronológico para a execução do algoritmo de Kruskal baseado em union-find;
+Número de testes para descobrir se a aresta escolhida pode ser adicionada à AGM ou se ela fecha um ciclo.
 Grafos Ponderados Não Direcionados.rar
 
