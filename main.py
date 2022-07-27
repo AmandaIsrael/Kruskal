@@ -9,4 +9,3 @@
 # a b c  <-  d
 #   1        2
 
-# Kruskal Union-Find -> utilizar árvore 

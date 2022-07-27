@@ -16,11 +16,11 @@ deve-se adotar a mesma abordagem para ambos os métodos. Por exemplo, ambos deve
 sobre a mesma representação (lista ou matriz de adjacência).
 
 Os dados a serem empregados na construção dos grafos estão
- disponíveis no endereço a seguir:  https://drive.google.com/file/d/1e9F7pIPWXMXQDrWcsFBX0YYLDz2m0rwK/view?usp=sharing  
+disponíveis no endereço a seguir:  https://drive.google.com/file/d/1e9F7pIPWXMXQDrWcsFBX0YYLDz2m0rwK/view?usp=sharing  
 
 Critérios que devem ser analisados:
-Tempo cronológico para a execução do algoritmo de Kruskal 
-quadrático;Tempo cronológico para a execução do algoritmo de Kruskal baseado em union-find;
+Tempo cronológico para a execução do algoritmo de Kruskal quadrático;
+Tempo cronológico para a execução do algoritmo de Kruskal baseado em union-find;
 Número de testes para descobrir se a aresta escolhida pode ser adicionada à AGM ou se ela fecha um ciclo.
 Grafos Ponderados Não Direcionados.rar
 
