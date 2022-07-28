@@ -24,7 +24,7 @@ def leitura_matriz(tamanho_conjunto):
             if ele != '0':
                 if not ele in arestas_hash:
                     arestas_hash[ele] = []
-                arestas_hash[ele].append([i,j])
+                arestas_hash[ele].append(tuple([i,j]))
 
     return arestas_hash
 
@@ -32,26 +32,56 @@ def quadratico(arestas_hash, tamanho_conjunto):
     agm = []
     keys = [int(key) for key in arestas_hash.keys()]
     keys.sort()
-    for key in keys:
-    l = arestas_hash[str(key)]
-    for ele in l:
-        print(ele)
-    return tempo_quadratico, num_comp_quadratico
+    list_vertices_visitados = []
+    num_comp_quadratico = 0
+    t0 = time.time()
+    for key in keys:        
+        l = arestas_hash[str(key)]
+        for ele in l:
+            first = -1
+            second = -1
+            for ind_conjunto in range(len(list_vertices_visitados)):
+                for vert in list_vertices_visitados[ind_conjunto]:
+                    num_comp_quadratico += 1
+                    if vert == ele[0]: first = ind_conjunto
+                    if vert == ele[1]: second = ind_conjunto
+                    if first != -1 and second != -1: break
+            if first == -1 and second == -1:
+                agm.append(ele)
+                list_vertices_visitados.append([ele[0], ele[1]])
+            elif first != -1 and second == -1:
+                agm.append(ele)
+                list_vertices_visitados[first].append(ele[1])
+            elif first == -1 and second != -1:
+                agm.append(ele)
+                list_vertices_visitados[second].append(ele[0])
+            elif first != second:
+                conjunto = list_vertices_visitados.pop(max(first, second))
+                list_vertices_visitados[min(first, second)].extend(conjunto)
+                agm.append(ele)
+            if tamanho_conjunto == len(list_vertices_visitados[0]):
+                break
+        if tamanho_conjunto == len(list_vertices_visitados[0]):
+            break
+    tempo_quadratico = time.time() - t0           
+    return tempo_quadratico, num_comp_quadratico, agm
 
 def union_find(arestas_hash, tamanho_conjunto):
     agm = []
     keys = [int(key) for key in arestas_hash.keys()]
     keys.sort()
     for key in keys:
-    l = arestas_hash[str(key)]
-    for ele in l:
-        print(ele)
+        l = arestas_hash[str(key)]
+        for ele in l:
+            print(ele)
     return tempo_union_find, num_comp_union_find
 
 if __name__=="__main__":
     tamanhos_conjuntos = [10, 25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 650, 800, 1000, 1500]
     
-    print(leitura_matriz(10))
+    arestas_hash = leitura_matriz(10)
+    tempo_quadratico, num_comp_quadratico, agm = quadratico(arestas_hash, 10)
+    print(tempo_quadratico, num_comp_quadratico, agm)
 """
     for tamanho_conjunto in tamanhos_conjuntos:
         arestas_hash = leitura_matriz(tamanho_conjunto)
