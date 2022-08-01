@@ -63,36 +63,93 @@ def quadratico(arestas_hash, tamanho_conjunto):
                 break
         if tamanho_conjunto == len(list_vertices_visitados[0]):
             break
-    tempo_quadratico = time.time() - t0           
+    
+    t1 = time.time()
+    tempo_quadratico = (t1*100)-(t0*100)           
     return tempo_quadratico, num_comp_quadratico, agm
+
+def get_root(arvores, vertice, count):
+    if arvores[vertice][0] == vertice:
+        return vertice, count
+    else:
+        count += 1
+        return get_root(arvores, arvores[vertice][0], count)
 
 def union_find(arestas_hash, tamanho_conjunto):
     agm = []
+    arvores = []
+    num_comp_union_find = 0
+    #num_unions = 0
+    #chamada_externa = 0
     keys = [int(key) for key in arestas_hash.keys()]
     keys.sort()
+
+    t0 = time.time()
+    stop = False
+    for i in range(tamanho_conjunto):
+        arvores.append([i,1])
+
     for key in keys:
         l = arestas_hash[str(key)]
         for ele in l:
-            print(ele)
-    return tempo_union_find, num_comp_union_find
+            root_first, count_first = get_root(arvores, ele[0], 1)
+            root_second, count_second = get_root(arvores, ele[1], 1)
+            #chamada_externa += 1
+            num_comp_union_find += count_first + count_second
+
+            if root_first != root_second:
+                #num_unions += 1
+                agm.append(ele)
+                if arvores[root_first][1] >= arvores[root_second][1]:
+                    arvores[root_second][0] = root_first
+                    arvores[root_first][1] += arvores[root_second][1]
+                    if arvores[root_first][1] == tamanho_conjunto:
+                        stop = True
+                else:
+                    arvores[root_first][0] = root_second
+                    arvores[root_second][1] += arvores[root_first][1]
+                    if arvores[root_second][1] == tamanho_conjunto:
+                        stop = True
+
+                if stop:
+                    break
+            
+        if stop:
+            break
+                
+    t1 = time.time()
+
+    tempo_union_find = (t1*100)-(t0*100)
+    return tempo_union_find, num_comp_union_find, agm
 
 if __name__=="__main__":
     tamanhos_conjuntos = [10, 25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 650, 800, 1000, 1500]
-    
-    arestas_hash = leitura_matriz(10)
-    tempo_quadratico, num_comp_quadratico, agm = quadratico(arestas_hash, 10)
-    print(tempo_quadratico, num_comp_quadratico, agm)
-"""
+    #tamanhos_conjuntos = [1500]
     for tamanho_conjunto in tamanhos_conjuntos:
+        print(f"TAMANHO {tamanho_conjunto}")
         arestas_hash = leitura_matriz(tamanho_conjunto)
-        tempo_quadratico, num_comp_quadratico = quadratico(arestas_hash, tamanho_conjunto)
-        tempo_union_find, num_comp_union_find = union_find(arestas_hash, tamanho_conjunto)
+        total_tempo_quadratico, total_tempo_union_find = 0,0
+        for i in range(10):
+            tempo_quadratico, num_comp_quadratico, agm_quadratico = quadratico(arestas_hash, tamanho_conjunto)
+            tempo_union_find, num_comp_union_find, agm_union_find = union_find(arestas_hash, tamanho_conjunto)
+            total_tempo_quadratico += tempo_quadratico
+            total_tempo_union_find += tempo_union_find
+        print(f"{total_tempo_quadratico/10} ms, {num_comp_quadratico} comparações")
+        print(f"{total_tempo_union_find/10} ms, {num_comp_union_find} comparações")
+        print("AGMs iguais" if agm_quadratico==agm_union_find else "AGMs diferentes")
+        print("-"*20)
         results = pd.DataFrame({
-                'Tempo quadrático': [tempo_quadratico],
-                'Tempo Union Find':[tempo_union_find],
+                'Tamanho':[tamanho_conjunto],
+                'Tempo quadrático': [total_tempo_quadratico/10],
                 'Número de comparações quadrático':[num_comp_quadratico],
+                'Quadratico (Tempo/Mil Comparações)': [(total_tempo_quadratico/10)*1000/num_comp_quadratico],
+                'Tempo Union Find':[total_tempo_union_find/10],
                 'Número de comparações Union Find': [num_comp_union_find],
-                'Tamanho':[tamanho_conjunto]
+                #'Número de unions realizados': [num_unions],
+                'Union Find (Tempo/Mil Comparações)': [(total_tempo_union_find/10)*1000/num_comp_union_find],
+                #'Union Find (Tempo/Mil Comparações + Unions)': [(total_tempo_union_find/10)*1000/(num_comp_union_find+num_unions)],
+                #'Chamadas externas': [chamada_externa]
+                
             })
         
         if exists("Reultados.csv"):
@@ -101,8 +158,3 @@ if __name__=="__main__":
             file_df.to_csv("Reultados.csv",index=False)
         else:
             results.to_csv("Reultados.csv",index=False)
-            
-        t1 = time.time()
-        print(f"Tempo decorrido: {round(t1-t0,6)} seg")
-        print("-"*10)
-        """
