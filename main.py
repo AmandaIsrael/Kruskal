@@ -80,8 +80,7 @@ def union_find(arestas_hash, tamanho_conjunto):
     agm = []
     arvores = []
     num_comp_union_find = 0
-    #num_unions = 0
-    #chamada_externa = 0
+
     keys = [int(key) for key in arestas_hash.keys()]
     keys.sort()
 
@@ -95,11 +94,9 @@ def union_find(arestas_hash, tamanho_conjunto):
         for ele in l:
             root_first, count_first = get_root(arvores, ele[0], 1)
             root_second, count_second = get_root(arvores, ele[1], 1)
-            #chamada_externa += 1
             num_comp_union_find += count_first + count_second
 
             if root_first != root_second:
-                #num_unions += 1
                 agm.append(ele)
                 if arvores[root_first][1] >= arvores[root_second][1]:
                     arvores[root_second][0] = root_first
@@ -126,7 +123,7 @@ def union_find(arestas_hash, tamanho_conjunto):
 if __name__=="__main__":
     os.nice(-19)
     tamanhos_conjuntos = [10, 25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 650, 800, 1000, 1500]
-    #tamanhos_conjuntos = [1500]
+
     for tamanho_conjunto in tamanhos_conjuntos:
         print(f"TAMANHO {tamanho_conjunto}")
         arestas_hash = leitura_matriz(tamanho_conjunto)
@@ -147,10 +144,7 @@ if __name__=="__main__":
                 'Quadratico (Tempo/Mil Comparações)': [(total_tempo_quadratico/100)*1000/num_comp_quadratico],
                 'Tempo Union Find':[total_tempo_union_find/100],
                 'Número de comparações Union Find': [num_comp_union_find],
-                #'Número de unions realizados': [num_unions],
-                'Union Find (Tempo/Mil Comparações)': [(total_tempo_union_find/100)*1000/num_comp_union_find],
-                #'Union Find (Tempo/Mil Comparações + Unions)': [(total_tempo_union_find/10)*1000/(num_comp_union_find+num_unions)],
-                #'Chamadas externas': [chamada_externa]
+                'Union Find (Tempo/Mil Comparações)': [(total_tempo_union_find/100)*1000/num_comp_union_find]
                 
             })
         
