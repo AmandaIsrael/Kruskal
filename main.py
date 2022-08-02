@@ -1,5 +1,6 @@
 import time
 import pandas as pd
+import os
 from os.path import exists
 pd.set_option("display.precision", 6)
 
@@ -123,30 +124,31 @@ def union_find(arestas_hash, tamanho_conjunto):
     return tempo_union_find, num_comp_union_find, agm
 
 if __name__=="__main__":
+    os.nice(-19)
     tamanhos_conjuntos = [10, 25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 650, 800, 1000, 1500]
     #tamanhos_conjuntos = [1500]
     for tamanho_conjunto in tamanhos_conjuntos:
         print(f"TAMANHO {tamanho_conjunto}")
         arestas_hash = leitura_matriz(tamanho_conjunto)
         total_tempo_quadratico, total_tempo_union_find = 0,0
-        for i in range(10):
+        for i in range(100):
             tempo_quadratico, num_comp_quadratico, agm_quadratico = quadratico(arestas_hash, tamanho_conjunto)
             tempo_union_find, num_comp_union_find, agm_union_find = union_find(arestas_hash, tamanho_conjunto)
             total_tempo_quadratico += tempo_quadratico
             total_tempo_union_find += tempo_union_find
-        print(f"{total_tempo_quadratico/10} ms, {num_comp_quadratico} comparações")
-        print(f"{total_tempo_union_find/10} ms, {num_comp_union_find} comparações")
+        print(f"{total_tempo_quadratico/100} ms, {num_comp_quadratico} comparações")
+        print(f"{total_tempo_union_find/100} ms, {num_comp_union_find} comparações")
         print("AGMs iguais" if agm_quadratico==agm_union_find else "AGMs diferentes")
         print("-"*20)
         results = pd.DataFrame({
                 'Tamanho':[tamanho_conjunto],
-                'Tempo quadrático': [total_tempo_quadratico/10],
+                'Tempo quadrático': [total_tempo_quadratico/100],
                 'Número de comparações quadrático':[num_comp_quadratico],
-                'Quadratico (Tempo/Mil Comparações)': [(total_tempo_quadratico/10)*1000/num_comp_quadratico],
-                'Tempo Union Find':[total_tempo_union_find/10],
+                'Quadratico (Tempo/Mil Comparações)': [(total_tempo_quadratico/100)*1000/num_comp_quadratico],
+                'Tempo Union Find':[total_tempo_union_find/100],
                 'Número de comparações Union Find': [num_comp_union_find],
                 #'Número de unions realizados': [num_unions],
-                'Union Find (Tempo/Mil Comparações)': [(total_tempo_union_find/10)*1000/num_comp_union_find],
+                'Union Find (Tempo/Mil Comparações)': [(total_tempo_union_find/100)*1000/num_comp_union_find],
                 #'Union Find (Tempo/Mil Comparações + Unions)': [(total_tempo_union_find/10)*1000/(num_comp_union_find+num_unions)],
                 #'Chamadas externas': [chamada_externa]
                 
